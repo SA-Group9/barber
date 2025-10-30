@@ -1,0 +1,129 @@
+.bg-color {
+  background-color: #2c2627;
+  color: #fff;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.table-wrapper {
+    background-color: #201b1c;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    max-width: 1000px;
+    width: 90%;
+    position: relative;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.table-wrapper .d-flex {
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.div-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  white-space: nowrap;
+}
+
+.div-table-row {
+  display: table-row;
+}
+
+.div-table-cell {
+    display: table-cell;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #473D41;
+    color: #fff;
+}
+
+.div-table-row:not(.header):nth-child(even) .div-table-cell {
+    background-color: #473D41;
+}
+
+.div-table-row:not(.header):nth-child(odd) .div-table-cell {
+    background-color: #393134;
+}
+
+.div-table-row:not(.header):hover .div-table-cell {
+    background-color: #52464b;
+}
+
+.div-table-row.header .div-table-cell {
+  font-weight: bold;
+  background-color: #3a3335;
+  position: sticky;
+  top: 0;
+}
+
+.div-table-row.no-data .div-table-cell {
+  padding-top: 1.5rem;   /* เพิ่มช่องว่างด้านบน */
+  padding-bottom: 1.5rem; /* เพิ่มช่องว่างด้านล่าง */
+}
+
+.table-scroll {
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
+.search-box {
+   width:100%;
+}
+
+.queue-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+  /* บรรทัดแรก: title */
+  .table-wrapper .d-flex.flex-wrap.align-items-center.justify-content-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  /* dropdown group อยู่บรรทัดใหม่ */
+  .table-wrapper .d-flex.align-items-center:first-child {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  /* บรรทัดล่าง: ปุ่ม + search */
+  .table-wrapper .d-flex.align-items-center:last-child {
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .queue-title {
+    width: 100%; /* title แยกบรรทัด */
+    margin-bottom: 0.5rem;
+  }
+
+  .bg-color {
+    padding-top: 25%;
+    padding-bottom: 10%;
+  }
+}
+
+

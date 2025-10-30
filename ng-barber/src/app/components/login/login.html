@@ -1,0 +1,61 @@
+<div class="shell">
+  <!-- ขวา: การ์ดล็อกอิน -->
+  <section class="login-card" *ngIf="isLogin">
+    <header class="header">
+      <span class="title active">เข้าสู่ระบบ</span>
+      <span class="divider" aria-hidden="true"></span>
+      <span class="title muted" (click)="toggleLoginRegister()">ลงทะเบียน</span>
+    </header>
+
+    <div class="form">
+      <form [formGroup]="loginForm" (ngSubmit)="onLoginButton()">
+      <label for="telNum">เบอร์โทรศัพท์</label>
+      <input id="telNum" type="text" placeholder="เบอร์โทรศัพท์" formControlName="telNumber"/>
+
+      <label for="password">รหัสผ่าน</label>
+      <input id="password" type="password" placeholder="รหัสผ่าน" formControlName="password"/>
+
+      <button class="primary" (click)="onLoginButton()">เข้าสู่ระบบ</button>
+
+      <p class="hint mt-4">
+        ยังไม่มีบัญชี? <a (click)="toggleLoginRegister()">ลงทะเบียนที่นี่</a>
+      </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ขวา: การ์ด Register  -->
+  <section class="login-card" *ngIf="!isLogin">
+    <header class="header">
+      <span class="title muted" (click)="toggleLoginRegister()">เข้าสู่ระบบ</span>
+      <span class="divider" aria-hidden="true"></span>
+      <span class="title active">ลงทะเบียน</span>
+    </header>
+
+    <div class="form">
+      <form [formGroup]="registerForm" (ngSubmit)="onRegisterButton()">
+        <div class="row">
+          <div class="col">
+            <label for="firstName" class="form-label">ชื่อจริง</label>
+            <input id="firstName" type="text" class="form-control" placeholder="ชื่อจริง" formControlName="firstName" />
+          </div>
+          <div class="col">
+            <label for="lastName" class="form-label">นามสกุล</label>
+            <input id="lastName" type="text" class="form-control" placeholder="นามสกุล" formControlName="lastName"/>
+          </div>
+        </div>
+        <label for="telNumber">เบอร์โทรศัพท์</label>
+        <input id="telNumber" type="text" placeholder="เบอร์โทรศัพท์" formControlName="telNumber" />
+
+        <label for="password">รหัสผ่าน</label>
+        <input id="password" type="password" placeholder="รหัสผ่าน" formControlName="password"/>
+
+        <button class="primary" type="submit">ลงทะเบียน</button>
+
+        <p class="hint mt-4">
+          มีบัญชีแล้ว? <a (click)="toggleLoginRegister()">เข้าสู่ระบบที่นี่</a>
+        </p>
+      </form>
+    </div>
+  </section>
+</div>

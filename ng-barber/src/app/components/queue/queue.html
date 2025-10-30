@@ -1,0 +1,145 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-color" *ngIf="!userQueuing">
+  <div class="bg-color-secondary p-4 mt-5 w-100" style="max-width: 1000px;">
+    <h2 class="mb-4">จองคิว</h2>
+
+    <div class="row">
+      <!-- Left Section: เลือกช่าง + บริการ -->
+      <div class="col-md-8">
+        <h5 class="mb-3">เลือกช่าง</h5>
+        <div *ngIf="barbers.length > 0">
+          <div class="d-flex flex-wrap mb-4">
+            <div class="me-4 text-center mb-3" *ngFor="let barber of barbers" (click)="selectBarber(barber)">
+              <img src="https://eu.ui-avatars.com/api/?name=B+B" class="barber-image mb-2"
+                [class.selected]="selectedBarberId === barber.barberId" />
+              <div>{{ barber.firstName }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="barbers.length === 0" class="text-center no-barber-box">
+          ไม่มีช่างทำการ
+        </div>
+
+
+        <h5 class="mb-3">เลือกบริการ</h5>
+        <div class="row mb-4">
+          <!-- ปุ่มแรก -->
+          <div class="col-12 col-md-6 mb-3" (click)="serviceToggle(0)">
+            <div class="service-card h-100 p-3" [ngClass]="{ active: services[0].serviceId === selectedServiceId }">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ translateServiceName(services[0].serviceName) }}</h5>
+                <span class="fw-bold">฿{{ services[0].servicePrice }}</span>
+              </div>
+              <p class="time-estimated mt-2 mb-0">ใช้เวลาประมาณ 30 นาที</p>
+            </div>
+          </div>
+
+          <!-- ปุ่มที่สอง -->
+          <div class="col-12 col-md-6 mb-3" (click)="serviceToggle(1)">
+            <div class="service-card h-100 p-3" [ngClass]="{ active: services[1].serviceId === selectedServiceId }">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ translateServiceName(services[1].serviceName) }}</h5>
+                <span class="fw-bold">฿{{ services[1].servicePrice }}</span>
+              </div>
+              <p class="time-estimated mt-2 mb-0">ใช้เวลาประมาณ 45 นาที</p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="col-md-4 d-flex align-items-start justify-content-center">
+        <div class="queue-info bg-color-currentQ p-4 text-center">
+          <div class="queue-now mb-2">คิวตอนนี้</div>
+          <div class="queue-number">{{ formatQueueNumber(waitingQueueCount) }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+      <button class="btn btn-primary queue-button" data-bs-toggle="modal" data-bs-target="#bookingModal"
+        (click)="onQueueButton() ">จองคิว</button>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-color" *ngIf="userQueuing">
+  <section class="queue-card">
+    <div class="two-col">
+      <div class="queue-col">
+        <h2 class="label">คิวของคุณ</h2>
+        <div class="big-number">{{myQueue?.queueNumber}}</div>
+      </div>
+      <div class="queue-col col-with-divider">
+        <h2 class="label">รออีก (คิว)</h2>
+        <div class="big-number"> {{previousCountForYourQueue}}</div>
+      </div>
+    </div>
+
+    <hr class="hr-dashed" />
+
+    <dl class="details">
+      <div class="queue-row">
+        <dt>ผู้จอง :</dt>
+        <dd>{{ account?.firstName}}</dd>
+      </div>
+      <div class="queue-row">
+        <dt>เวลาที่จอง :</dt>
+        <dd>{{ formatIsoStringToThaiDateTime(myQueue?.dateTime ?? '') }}</dd>
+      </div>
+      <div class="queue-row">
+        <dt>ช่างที่เลือก :</dt>
+        <dd>ช่าง {{ getBarberName(myQueue?.barberId!) }}</dd>
+      </div>
+      <div class="queue-row">
+        <dt>ประเภทของบริการ :</dt>
+        <dd>{{ getServiceNameThai(myQueue?.serviceId!) }}</dd>
+      </div>
+    </dl>
+
+    <button class="btn-cancel" type="button" (click)="cancelQueuing()">ยกเลิกการจอง</button>
+  </section>
+</div>
+
+<!-- Modal จองคิว -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <!-- Header -->
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold" id="bookingModalLabel">จองคิว</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+        <div class="border rounded-3 p-3">
+          <div class="d-flex justify-content-between">
+            <span>{{translateServiceName(serviceName)}}</span>
+            <span>฿ {{servicePrice}}</span>
+          </div>
+          <small class="text-muted">{{ formatTimestampToThaiDateTime(timeQueued) }}</small>
+
+          <div class="mt-2">ช่างตัดผม</div>
+          <small class="text-muted">{{ selectedBarberName && selectedBarberName.trim() !== '' ? selectedBarberName : '-'
+            }}</small>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold">
+            <span>รวม</span>
+            <span>฿ {{servicePrice}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-primary w-100" [disabled]="!selectedBarberName" data-bs-dismiss="modal"
+          (click)="confirmQueuing()">
+          ยืนยันการจองคิว
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

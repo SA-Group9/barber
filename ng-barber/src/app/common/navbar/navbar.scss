@@ -1,0 +1,423 @@
+.button-queue {
+    background-color: rgb(112,167,130);
+    color: white;
+    border: none;
+}
+
+.button-queue:active {
+    background-color: rgb(75, 119, 90);
+    color: #acacac;
+}
+
+.button-login {
+    background-color: rgb(138,136,179);
+    color: white;
+    border: none;
+}
+
+.button-login:active {
+    background-color: rgba(118, 116, 159);
+    color: #acacac;
+}
+
+.bg-darkbrown {
+    background-color: rgba(23,18,18,255);
+}
+
+.font-white {
+    color: white;
+}
+
+.font-bold {
+     font-weight: 200px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.icon {
+    max-height: 50px;
+    border-radius: 50px;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  min-width: 250px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  border: none;
+  background-color: #E9EEF6;
+}
+
+.my-profile-button {
+    border-radius: 75px;
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.bdfx {
+  min-height: 275px;
+}
+
+.btn-lightgray.circle {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+  border-radius: 50%;
+  border: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-lightgray.icon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 15px;
+  right: 15px;
+  z-index: 1;
+  border-radius: 50%;
+  border: none;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.my-profile-popup {
+  overflow: hidden;
+  padding-bottom: 4%;
+  position: relative;
+  display: flex;
+}
+
+.my-profile-header {
+  height: 200px;
+}
+
+.my-profile-popup .title {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  color: white;
+  font-size: 23px;
+  font-weight: 500;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  z-index: 1;
+
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.my-profile-popup .background-circle {
+  background-color: white;
+  filter: drop-shadow(0 10px 10px rgb(0, 0, 0));
+  overflow: hidden;
+  position: absolute;
+  width: 1600px;
+  height: 1600px;
+  border-radius: 50%;
+
+  display: flex;
+  top: 24%;
+  /* ปรับตามต้องการ */
+  left: 50%;
+  transform: translateX(-50%);
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.image-profile-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 13%;
+  margin-bottom: 20%;
+}
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 10;
+  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.148));
+}
+
+.image-preview.hover:hover {
+  transition: transform .2s;
+  transform: scale(1.1);
+}
+
+.image-change-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 13%;
+  margin-bottom: 20%;
+  z-index: 10;
+}
+
+.image-background {
+  filter: blur(20px);
+  transform: scale(1.1);
+  overflow: hidden;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 125px;
+  max-height: 250px;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.image-profile {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  display: block;
+  position: relative;
+  z-index: 2;
+
+  pointer-events: none;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.edit-profile-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  z-index: 5;
+  background: none;
+  border: none;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+}
+
+.my-profile-popup .label {
+  display: flex;
+  color: #393939;
+  font-size: 20px;
+  font-weight: 500;
+  z-index: 1;
+  padding-right: 2%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.my-profile-popup .name {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  color: #393939;
+  font-size: 20px;
+  font-weight: 700;
+  z-index: 1;
+  padding-top: 1%;
+}
+
+.my-profile-popup .phone {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  color: #393939;
+  font-size: 20px;
+  font-weight: 400;
+  z-index: 1;
+}
+
+.my-profile-popup .role {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  color: #393939;
+  font-size: 25px;
+  font-weight: 500;
+  z-index: 1;
+  padding-top: 1%;
+}
+
+.back {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: row;
+  border: none;
+  background: none;
+  gap: 2px;
+  color: #393939;
+}
+
+.back .text {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.my-profile-popup .edit {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.my-profile-popup .changePassword {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 0;
+  margin-top: 5px;
+}
+
+.btn-save-changes {
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-save-changes button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes scaleInCenter {
+  0% { transform: scale(0.1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.animate-scale-in {
+  animation: scaleInCenter 0.2s ease-out;
+}
+
+.admin-menu-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.not-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-dropdown {
+  margin-right: 85px;
+  border-radius: 16px;
+  background-color: #E9EEF6;
+}
+
+.admin-menu {
+  border-radius: 16px; /* ขอบโค้งด้านบนและล่างของ menu */
+  overflow: hidden;    /* ซ่อนส่วนที่เกินจาก border-radius */
+}
+
+.menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  border: none;
+  text-align: left;
+  font-weight: 500;
+  padding: 10px 14px;
+  cursor: pointer;
+  
+  border-bottom: 1px solid #E9EEF6;
+}
+
+.menu-item:first-child {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.menu-item:last-child {
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-bottom: none;
+}
+
+.menu-item:hover {
+  background-color: #d3d4d5;
+}
+
+.form-check-input {
+  width: 3rem;
+  height: 1.5rem;
+}
+
+/* จัดให้อยู่กลางแนวตั้งและแนวนอน */
+.toggle-center {
+  display: flex;
+  align-items: center; /* ให้ label อยู่ตรงกลางแนวตั้งกับสวิตช์ */
+  justify-content: center; /* ให้อยู่กลางแนวนอน */
+}
+
+/* เพิ่มระยะห่างระหว่าง toggle กับข้อความ */
+.toggle-center .form-check-label {
+  margin-left: 0.75rem; /* ปรับได้ตามชอบ เช่น 0.5rem, 1rem */
+  font-weight: 500; /* เพิ่มน้ำหนัก font นิดหนึ่งให้ดูบาลานซ์ */
+}
+

@@ -1,0 +1,125 @@
+.top-banner {
+    width: 100%;
+    height: auto;
+    line-height: 0;
+    margin-top: 5%;
+    pointer-events: none;
+    -webkit-touch-callout: none;
+}
+
+svg.top-banner {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.service-card {
+    background-color: rgba(49, 42, 44, 255);
+    border-radius: 12px;
+    border: 2px solid #413A3C;
+    width: 100vm;
+    text-align: center;
+}
+
+.service-card h2 {
+    font-size: 2rem;
+}
+
+#service {
+  scroll-margin-top: 160px; /* ปรับตามความสูงของ navbar */
+}
+
+.scissors-icon {
+    transform: rotate(90deg);
+}
+
+.ig-icon {
+    border: white 0px solid;
+}
+
+.pin-wrapper {
+    position: relative;
+}
+
+.pin-icon {
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    width: 1.6em;
+    height: auto;
+}
+
+.pin-text {
+    padding-left: 2.5em;
+    word-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .pin-text {
+        font-size: 1rem;
+        /* ปรับขนาดสำหรับมือถือ */
+    }
+
+    .pin-icon {
+        width: 1.4em;
+    }
+}
+
+@media (min-width: 769px) {
+    .pin-text {
+        font-size: 1.25rem;
+        /* ปรับขนาดใหญ่ขึ้นสำหรับจอใหญ่ */
+    }
+}
+
+.bg-home {
+    margin-top: 0;
+    padding-top: 0;
+    background-color: #302424;
+    display: block;
+}
+
+.bg-home2 {
+    margin-top: 0;
+    padding-top: 0;
+    background-color: #171212;
+    display: block;
+}
+
+#carouselExampleIndicators {
+    width: 70%;
+    max-width: 700px;
+    min-width: 300px;
+    margin: 0 auto;
+}
+
+.map-responsive {
+    position: relative;
+    width: 100%;
+    min-width: 300px;
+    height: 450px;
+    overflow: hidden;
+}
+
+.map-responsive iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.gradient-box {
+    width: 100%;
+    height: 47px;
+    background: linear-gradient(to bottom, #171212 0%, #171212 40%, #ffffff 90%);
+}
+
+@media (max-width: 768px) {
+    .top-banner{
+        margin-top: 25%;
+    }
+}

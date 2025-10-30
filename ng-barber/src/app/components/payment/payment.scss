@@ -1,0 +1,299 @@
+.bg-color {
+    background-color: #2c2627;
+    padding-top: 5%;
+    padding-bottom: auto;
+}
+
+/* กล่องสถานะพื้นฐาน */
+.payment-status,
+.payment-type {
+  color: #fff;
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* ประเภท: รายรับ = เขียว / รายจ่าย = แดง */
+.payment-type.income {
+  background-color: #198754; /* เขียว */
+}
+
+.payment-type.outcome {
+  background-color: #dc3545; /* แดง */
+}
+
+/* สถานะ: paid = เขียว, owed = ส้ม, none = เทา */
+.payment-status.paid {
+  background-color: #198754; /* เขียว */
+}
+
+.payment-status.owed {
+  background-color: #fd7e14; /* ส้ม */
+}
+
+.payment-status.none {
+  background-color: #6c757d; /* เทา */
+}
+
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+    white-space: nowrap;
+}
+
+.filter-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    background-color: #2c2627;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+}
+
+.summary-card {
+    background-color: #2c2627;
+    /* สีเข้มแบบในภาพ */
+    color: white;
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.summary-card .title {
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+.summary-card .amount {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-top: 0.25rem;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.main-title {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.sub-title {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.table-wrapper {
+    background-color: #201b1c;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    max-width: 1500px;
+    width: 90%;
+    position: relative;
+    overflow-x: auto;
+}
+
+.table-wrapper .d-flex {
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.div-table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+.div-table-row {
+    display: table-row;
+}
+
+.div-table-row.header .div-table-cell {
+    font-weight: bold;
+    color: #ddd;
+    background-color: #393134;
+    /* สี header */
+}
+
+.div-table-cell {
+    display: table-cell;
+    padding: 0.75rem 1rem;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #473D41;
+    color: #fff;
+}
+
+.div-table-row:not(.header):nth-child(even) .div-table-cell {
+    background-color: #473D41;
+}
+
+.div-table-row:not(.header):nth-child(odd) .div-table-cell {
+    background-color: #393134;
+}
+
+.table-scroll {
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
+.queue-status {
+    color: #fff;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.queue-status.queueing {
+    background-color: #6c757d;
+    /* เทา */
+}
+
+.queue-status.done {
+    background-color: #198754;
+    /* เขียว */
+}
+
+.queue-status.canceled {
+    background-color: #dc3545;
+    /* แดง */
+}
+
+.form-label {
+    color: #fff;
+}
+
+.filter-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    background-color: #2c2627;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+    white-space: nowrap;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+}
+
+.filter-input {
+    background-color: #3b3334;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+}
+
+.filter-input:focus {
+    background-color: #4a4143;
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+}
+
+.input-group-text {
+    background-color: #3b3334;
+    color: #aaa;
+    border: none;
+}
+
+.payment-status-wrapper {
+  display: flex;
+  justify-content: center; // จัดกลางถ้าต้องการ
+}
+
+.payment-status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  min-width: 60px;
+}
+
+.payment-status-badge.paid {
+  background-color: #4E7E53;
+}
+
+.payment-status-badge.unpaid {
+  background-color: #BF4641;
+}
+
+.payment-status-badge.none {
+  background-color: #999;
+  color: #333;
+}
+
+.payment-type-wrapper {
+  display: flex;
+  justify-content: center; // จัดกลางถ้าต้องการ
+}
+
+.payment-type-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  min-width: 60px;
+}
+
+.payment-type-badge.income {
+  background-color: #4E7E53; // สีเขียว
+}
+
+.payment-type-badge.outcome {
+  background-color: #BF4641; // สีแดง
+}
+
+
+/* ✅ สำหรับหน้าจอมือถือ */
+@media (max-width: 768px) {
+    .summary-cards {
+        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .summary-card {
+        padding: 0.8rem;        /* ลด padding */
+        min-width: auto;       /* ลด min-width */
+    }
+
+    .summary-card .title {
+        font-size: 1.2rem;      /* ลดขนาดตัวอักษร */
+    }
+
+    .summary-card .amount {
+        font-size: 1.5rem;      /* ลดขนาดตัวเลข */
+    }
+
+    .filter-bar {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bg-color {
+        padding-top: 20%;
+        padding-bottom: 30%;
+    }
+}

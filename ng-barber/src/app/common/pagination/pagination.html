@@ -1,0 +1,52 @@
+<div class="pagination mb-1">
+    <button
+      class="pagination-round align-middle"
+      [disabled]="currentPage === 1"
+      (click)="goToPage(currentPage - 1)"
+    >
+      <span class="material-icons-outlined" style="font-size: 16px;">
+        <span aria-hidden="true">❮</span>
+      </span>
+    </button>
+  
+    <button
+      class="pagination-round"
+      [class.selected-page]="currentPage === 1"
+      (click)="goToPage(1)"
+    >
+      1
+    </button>
+  
+    <button *ngIf="showLeftEllipsis" class="pagination-dot">...</button>
+  
+    <button
+      *ngFor="let page of pages"
+      class="pagination-round"
+      [class.selected-page]="page === currentPage"
+      (click)="goToPage(page)"
+    >
+      {{ page }}
+    </button>
+  
+    <button *ngIf="showRightEllipsis" class="pagination-dot">...</button>
+
+    <button
+      *ngIf="totalPages > 1"
+      class="pagination-round"
+      [class.selected-page]="currentPage === totalPages"
+      (click)="goToPage(totalPages)"
+    >
+      {{ totalPages }}
+    </button>
+  
+    <button
+      class="pagination-round"
+      [disabled]="currentPage === totalPages"
+      (click)="goToPage(currentPage + 1)"
+    >
+      <span class="material-icons-outlined" style="font-size: 16px;">
+        <span aria-hidden="true">❯</span>
+      </span>
+    </button>
+</div>
+  

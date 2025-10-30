@@ -1,0 +1,185 @@
+<div class="bg-color">
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="d-flex align-items-center justify-content-between">
+                <h3 class="main-title">บันทึกการเงิน</h3>
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#outcomeModal">
+                    ทำรายการออก
+                </button>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="filter-bar w-100">
+                    <div class="filter-item">
+                        <label class="form-label mb-1">วันที่เริ่ม</label>
+                        <input type="date" class="form-control filter-input" [(ngModel)]="startDate"
+                            (ngModelChange)="onSearchChanged()" />
+                    </div>
+
+                    <div class="filter-item">
+                        <label class="form-label mb-1">วันที่สิ้นสุด</label>
+                        <input type="date" class="form-control filter-input" [(ngModel)]="endDate"
+                            (ngModelChange)="onSearchChanged()" />
+                    </div>
+
+                    <div class="filter-item">
+                        <label class="form-label mb-1">ประเภทการทำรายการ</label>
+                        <select class="form-select filter-input" [(ngModel)]="selectedTransaction"
+                            (ngModelChange)="onSearchChanged()">
+                            <option value="">ทั้งหมด</option>
+                            <option *ngFor="let t of transactions" [value]="t.value">
+                                {{ t.label }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label class="form-label mb-1">สถานะ</label>
+                        <select class="form-select filter-input" [(ngModel)]="selectedStatus"
+                            (ngModelChange)="onSearchChanged()">
+                            <option value="">ทั้งหมด</option>
+                            <option value="paid">จ่ายแล้ว</option>
+                            <option value="unpaid">ค้างชำระ</option>
+                        </select>
+                    </div>
+
+                    <div class="filter-item">
+                        <label class="form-label mb-1">ผู้รับผิดชอบ</label>
+                        <select class="form-select filter-input" [(ngModel)]="selectedInCharge"
+                            (input)="onSearchChanged()">
+                            <option value="">ทั้งหมด</option>
+                            <option *ngFor="let i of inCharge" [value]="i.accountId">
+                                {{ i.firstName }} {{ i.lastName }}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="summary-cards w-100">
+                    <div class="summary-card">
+                        <div class="title">รายรับ</div>
+                        <div class="amount">฿{{ incomeTotal | number }}</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="title">รายจ่าย</div>
+                        <div class="amount">฿{{ expenseTotal | number }}</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="title">กำไรสุทธิ</div>
+                        <div class="amount">฿{{ profit | number }}</div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="title">ยอดค้างชำระ</div>
+                        <div class="amount">฿{{ pendingAmount | number }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-start">
+                <div class="text-white">
+                    {{ payments.length === 0 ? 'ไม่มีรายการ'
+                    : 'แสดงรายการที่ ' + ((page * size) + 1) + ' ถึง ' + ((page * size) + payments.length) + '
+                    จากทั้งหมด ' +
+                    totalElements }}
+                </div>
+            </div>
+
+            <div class="table-scroll">
+                <div class="div-table">
+
+                    <!-- Header -->
+                    <div class="div-table-row header">
+                        <div class="div-table-cell">วัน-เวลา</div>
+                        <div class="div-table-cell">ประเภทรายการ</div>
+                        <div class="div-table-cell">จำนวนเงิน</div>
+                        <div class="div-table-cell">ผู้รับผิดชอบ</div>
+                        <div class="div-table-cell">สถานะ</div>
+                    </div>
+
+                    <!-- Rows -->
+                    <div class="div-table-row" *ngFor="let payment of payments" (click)="selectPayment(payment.paymentId!)">
+                        <div class="div-table-cell">{{formatTimestampToThaiDateTime(payment.editedAt)}}</div>
+                        <div class="div-table-cell">
+                            <div class="payment-type-wrapper">
+                                <div class="payment-type-badge" [ngClass]="{
+                                                                            'income': payment.transactionType === 'income',
+                                                                            'outcome': payment.transactionType === 'outcome'
+                                                                            }">
+                                    {{ getTypeInThai(payment.transactionType) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="div-table-cell">{{payment.amount}}</div>
+                        <div class="div-table-cell">{{ getInChargeNameById(payment.accountId) }}</div>
+                        <div class="div-table-cell">
+                            <div class="payment-status-wrapper">
+                                <div class="payment-status-badge" [ngClass]="{
+                                                                            'paid': payment.status?.toLowerCase() === 'paid',
+                                                                            'unpaid': payment.status?.toLowerCase() === 'unpaid',
+                                                                            'none': !payment.status
+                                                                            }">
+                                    {{ getStatusInThai(payment.status) }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="div-table-row" *ngIf="payments.length === 0">
+                        <div class="div-table-cell"></div>
+                        <div class="div-table-cell"></div>
+                        <div class="div-table-cell">
+                            ไม่มีรายการ
+                        </div>
+                        <div class="div-table-cell"></div>
+                        <div class="div-table-cell"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-3">
+                <app-pagination [totalPages]="totalPages" [currentPage]="pageCurrent"
+                    (pageChange)="onPageChange($event)"></app-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal outcome  -->
+<div class="modal fade" id="outcomeModal" tabindex="-1" aria-labelledby="outcomeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 rounded-4 border-0 shadow-lg">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">ทำรายการออก</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form [formGroup]="outcomeForm" (ngSubmit)="onSubmitDone()">
+
+        <div class="mb-3">
+          <label class="form-label">จำนวนเงิน</label>
+          <input type="text" class="form-control" formControlName="amount" placeholder="จำนวนเงิน">
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary" [disabled]="outcomeForm.invalid" data-bs-dismiss="modal">
+            ยืนยัน
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

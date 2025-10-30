@@ -1,0 +1,52 @@
+[
+  {
+    "accountId": 1,
+    "firstname": "Nattapong",
+    "lastname": "Srisuk",
+    "telNumber": "0812345678",
+    "password": "pass1234",
+    "isQueuing": false,
+    "isLogin": false,
+    "role": "customer"
+  },
+  {
+    "accountId": 2,
+    "firstname": "Kanyarat",
+    "lastname": "Chaiya",
+    "telNumber": "0898765432",
+    "password": "mypassword",
+    "isQueuing": false,
+    "isLogin": false,
+    "role": "barber"
+  },
+  {
+    "accountId": 3,
+    "firstname": "Phumipat",
+    "lastname": "Wongsa",
+    "telNumber": "0865551122",
+    "password": "abc123",
+    "isQueuing": false,
+    "isLogin": false,
+    "role": "customer"
+  },
+  {
+    "accountId": 4,
+    "firstname": "Supaporn",
+    "lastname": "Boonsri",
+    "telNumber": "0829988776",
+    "password": "qwerty",
+    "isQueuing": false,
+    "isLogin": false,
+    "role": "owner"
+  },
+  {
+    "accountId": 5,
+    "firstname": "Chatchai",
+    "lastname": "Nimman",
+    "telNumber": "0841122334",
+    "password": "letmein",
+    "isQueuing": false,
+    "isLogin": false,
+    "role": "admin"
+  }
+]
