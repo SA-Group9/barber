@@ -50,41 +50,75 @@ export class ManageAccount {
         icon: 'error',
         title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
       });
+      console.warn('addAccountForm invalid:', this.addAccountForm.value);
       return;
     }
 
-    const account: Account = {
-      firstName: this.addAccountForm.value.firstName!,
-      lastName: this.addAccountForm.value.lastName!,
-      telNumber: this.addAccountForm.value.telNumber!,
-      password: this.addAccountForm.value.password!,
-      queuing: false,
-      role: this.addAccountForm.value.role!,
-    };
+    const telNumber = this.addAccountForm.value.telNumber!;
+    console.log('เริ่มตรวจสอบเบอร์โทรศัพท์ก่อนเพิ่ม:', telNumber);
 
-    this.accountService.createAccountByAdmin(account).subscribe({
-      next: (res) => {
-        Swal.fire({
-          title: 'เพิ่มบัญชีสำเร็จ!',
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500
-        });
+    // 🔹 เรียก API ตรวจสอบเบอร์โทร
+    this.accountService.checkTelNumber(telNumber).subscribe({
+      next: (isTaken) => {
+        console.log('✅ ผลจาก backend checkTelNumber:', isTaken);
 
-        this.addAccountForm.reset({
-          firstName: '',
-          lastName: '',
-          telNumber: '',
-          password: '',
-          role: ''
+        if (isTaken) {
+          console.warn('เบอร์โทรนี้ถูกใช้งานแล้ว! ห้ามเพิ่มบัญชีซ้ำ');
+          Swal.fire({
+            icon: 'error',
+            title: 'หมายเลขโทรศัพท์นี้ถูกใช้งานแล้ว',
+            text: 'กรุณาใช้หมายเลขอื่น'
+          });
+          return;
+        }
+
+        // ✅ ถ้าไม่ซ้ำ -> ดำเนินการเพิ่มบัญชี
+        const account: Account = {
+          firstName: this.addAccountForm.value.firstName!,
+          lastName: this.addAccountForm.value.lastName!,
+          telNumber: telNumber,
+          password: this.addAccountForm.value.password!,
+          queuing: false,
+          role: this.addAccountForm.value.role!,
+        };
+
+        console.log('🟢 สร้างบัญชีใหม่:', account);
+
+        this.accountService.createAccountByAdmin(account).subscribe({
+          next: (res) => {
+            console.log('✅ เพิ่มบัญชีสำเร็จ:', res);
+            Swal.fire({
+              title: 'เพิ่มบัญชีสำเร็จ!',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1500
+            });
+
+            this.addAccountForm.reset({
+              firstName: '',
+              lastName: '',
+              telNumber: '',
+              password: '',
+              role: ''
+            });
+
+            this.searchChanged.next();
+          },
+          error: (err) => {
+            console.error('เกิดข้อผิดพลาดขณะเพิ่มบัญชี:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'เกิดข้อผิดพลาด',
+              text: err?.error?.message || 'โปรดลองใหม่อีกครั้ง'
+            });
+          }
         });
-        this.searchChanged.next();
       },
       error: (err) => {
+        console.error('ตรวจสอบหมายเลขโทรศัพท์ไม่สำเร็จ:', err);
         Swal.fire({
           icon: 'error',
-          title: 'เกิดข้อผิดพลาด',
-          text: err?.error?.message || 'โปรดลองใหม่อีกครั้ง'
+          title: 'ตรวจสอบหมายเลขโทรศัพท์ไม่สำเร็จ',
         });
       }
     });
@@ -116,7 +150,6 @@ export class ManageAccount {
   }
 
   submitEditAccount() {
-    // ทำให้ฟอร์มถูกเช็กก่อน
     this.editAccountForm.markAllAsTouched();
 
     if (this.editAccountForm.invalid) {
@@ -124,52 +157,27 @@ export class ManageAccount {
         icon: 'error',
         title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
       });
+      console.warn('⚠️ editAccountForm invalid:', this.editAccountForm.value);
       return;
     }
 
     const telNumber = this.editAccountForm.value.telNumber!;
-    const isTelChanged = telNumber !== this.selectedAccount?.telNumber;
+    console.log('เริ่มตรวจสอบเบอร์โทรศัพท์:', telNumber);
 
-    // ✅ ถ้าเบอร์ไม่เปลี่ยน -> ข้ามการเช็กซ้ำ
-    if (!isTelChanged) {
-      const account: Account = {
-        accountId: this.selectedAccountId,
-        firstName: this.editAccountForm.value.firstName!,
-        lastName: this.editAccountForm.value.lastName!,
-        telNumber: telNumber,
-        password: this.editAccountForm.value.password!,
-        queuing: this.selectedAccount?.queuing ?? false,
-        role: this.editAccountForm.value.role!
-      };
-
-      this.accountService.editAccountByAdmin(account).subscribe({
-        next: () => {
-          Swal.fire({
-            title: 'แก้ไขบัญชีสำเร็จ!',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500
-          });
-          this.searchChanged.next();
-        },
-        error: (err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'เกิดข้อผิดพลาด',
-            text: err?.error?.message || 'โปรดลองใหม่อีกครั้ง'
-          });
-        }
-      });
-      return;
-    }
-
-    // ถ้าเบอร์เปลี่ยน -> ตรวจหมายเลขซ้ำก่อน
     this.accountService.checkTelNumber(telNumber).subscribe({
       next: (isTaken) => {
-        if (isTaken) {
+        console.log('ผลจาก backend checkTelNumber:', isTaken);
+        console.log('เบอร์ที่แก้ไขใหม่:', telNumber);
+        console.log('เบอร์เดิมของบัญชี:', this.selectedAccount?.telNumber);
+        console.log('เงื่อนไขซ้ำจะเข้า if ถ้า:', isTaken && telNumber !== this.selectedAccount?.telNumber);
+
+        // ถ้าเบอร์ซ้ำ และ ไม่ใช่เบอร์ของบัญชีนี้เอง
+        if (isTaken && telNumber !== this.selectedAccount?.telNumber) {
+          console.warn('เบอร์โทรนี้ถูกใช้งานแล้วโดยบัญชีอื่น!');
           Swal.fire({
             icon: 'error',
             title: 'หมายเลขโทรศัพท์นี้ถูกใช้งานแล้ว',
+            text: 'กรุณาใช้หมายเลขอื่น'
           });
           return;
         }
@@ -185,8 +193,11 @@ export class ManageAccount {
           role: this.editAccountForm.value.role!
         };
 
+        console.log('ส่งข้อมูลแก้ไขไป backend:', account);
+
         this.accountService.editAccountByAdmin(account).subscribe({
           next: () => {
+            console.log('แก้ไขบัญชีสำเร็จ:', account);
             Swal.fire({
               title: 'แก้ไขบัญชีสำเร็จ!',
               icon: 'success',
@@ -196,6 +207,7 @@ export class ManageAccount {
             this.searchChanged.next();
           },
           error: (err) => {
+            console.error('เกิดข้อผิดพลาดขณะเรียก editAccountByAdmin:', err);
             Swal.fire({
               icon: 'error',
               title: 'เกิดข้อผิดพลาด',
@@ -204,7 +216,8 @@ export class ManageAccount {
           }
         });
       },
-      error: () => {
+      error: (err) => {
+        console.error('ตรวจสอบหมายเลขโทรศัพท์ไม่สำเร็จ:', err);
         Swal.fire({
           icon: 'error',
           title: 'ตรวจสอบหมายเลขโทรศัพท์ไม่สำเร็จ',
