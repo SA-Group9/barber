@@ -92,6 +92,17 @@ public interface QueueListRepository extends JpaRepository<QueueListEntity, Long
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end);
 
+    @Query("""
+    SELECT COALESCE(MAX(q.queueNumber), 0)
+    FROM QueueListEntity q
+    WHERE q.barberId = :barberId
+      AND q.dateTime BETWEEN :start AND :end
+    """)
+    int findMaxQueueNumberByBarberAndDateRange(
+            @Param("barberId") int barberId,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end);
+
 
 }
 

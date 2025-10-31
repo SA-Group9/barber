@@ -47,8 +47,9 @@ public class QueueListService {
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay();
         LocalDateTime endOfDay = today.plusDays(1).atStartOfDay().minusNanos(1);
+        int barberId = dto.getBarberId();
 
-        int maxNumber = queueRepo.findMaxQueueNumberByDateRange(startOfDay, endOfDay);
+        int maxNumber = queueRepo.findMaxQueueNumberByBarberAndDateRange(barberId, startOfDay, endOfDay);
         int nextNumber = maxNumber + 1;
 
         newQueue = new QueueListEntity();
