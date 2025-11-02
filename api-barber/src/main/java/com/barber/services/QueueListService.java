@@ -8,6 +8,8 @@ import com.barber.entity.QueueListEntity;
 import com.barber.repository.AccountRepository;
 import com.barber.repository.QueueListRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -160,6 +163,45 @@ public class QueueListService {
         queue.setEditedBy(accountDto.getAccountId());
         queue.setLatestEdit(LocalDateTime.now());
         return queueRepo.save(queue);
+    }
+
+    public Page<QueueListEntity> getQueuesLog(
+            LocalDate startDate,
+            LocalDate endDate,
+            Integer barberId,
+            Integer serviceId,
+            String status,
+            Pageable pageable
+    ) {
+        LocalDateTime startDateTime = (startDate != null) ? startDate.atStartOfDay() : null;
+        LocalDateTime endDateTime = (endDate != null) ? endDate.plusDays(1).atStartOfDay() : null;
+
+        return queueRepo.findByFilters(startDateTime, endDateTime, barberId, serviceId, status, pageable);
+    }
+
+    public List<Map<String, Object>> getCustomerNameList() {
+        return queueRepo.findAllCustomers().stream()
+                .map(a -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("accountId", a.getAccountId());
+                    map.put("firstName", a.getFirstName());
+                    map.put("lastName", a.getLastName());
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public List<Map<String, Object>> getEditedByList() {
+        List<Integer> editedByIds = queueRepo.findDistinctEditedBy();
+        List<AccountEntity> accounts = accountRepository.findAllById(editedByIds);
+
+        return accounts.stream().map(a -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("accountId", a.getAccountId());
+            map.put("firstName", a.getFirstName());
+            map.put("lastName", a.getLastName());
+            return map;
+        }).collect(Collectors.toList());
     }
 
 }

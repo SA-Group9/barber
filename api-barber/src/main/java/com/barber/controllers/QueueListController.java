@@ -5,15 +5,19 @@ import com.barber.dto.BarberDto;
 import com.barber.dto.QueueListDto;
 import com.barber.entity.AccountEntity;
 import com.barber.entity.QueueListEntity;
+import com.barber.repository.QueueListRepository;
 import com.barber.services.QueueListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/queue")
@@ -21,6 +25,7 @@ import java.util.List;
 public class QueueListController {
 
     private final QueueListService queueListService;
+    private final QueueListRepository queueListRepository;
 
     @PostMapping("/create")
     public ResponseEntity<QueueListEntity> createQueue(@RequestBody QueueListDto queueListDto) {
@@ -86,5 +91,35 @@ public class QueueListController {
         QueueListEntity queue = queueListService.doneQueueByBarber(accountDto, queueId);
         return ResponseEntity.ok(queue);
     }
+
+    @GetMapping("/get/queue-log")
+    public ResponseEntity<Page<QueueListEntity>> getQueuesLog(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) Integer barberId,
+            @RequestParam(required = false) Integer serviceId,
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<QueueListEntity> result = queueListService.getQueuesLog(startDate, endDate, barberId, serviceId, status, pageable);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/get/customerNameList")
+    public ResponseEntity<List<Map<String, Object>>> getCustomerNameList() {
+        List<Map<String, Object>> customers = queueListService.getCustomerNameList();
+        return ResponseEntity.ok(customers);
+    }
+
+    @GetMapping("/get/editedByList")
+    public ResponseEntity<List<Map<String, Object>>> getEditedByList() {
+        List<Map<String, Object>> editors = queueListService.getEditedByList();
+        return ResponseEntity.ok(editors);
+    }
+
 
 }

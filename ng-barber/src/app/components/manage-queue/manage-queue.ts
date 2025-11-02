@@ -281,11 +281,4 @@ export class ManageQueue {
     });
   }
 
-
-  translateServiceName(serviceName: string): string {
-    if (serviceName === "haircut") return "ตัดผม";
-    if (serviceName === "fix_haircut") return "แก้ทรงผม";
-    return serviceName;
-  }
-
 }

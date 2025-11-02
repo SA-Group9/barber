@@ -22,7 +22,7 @@ const routes: Routes = [
     path: "manage-queue",
     component: ManageQueue,
     title: "Manage Queue",
-    canActivate: [RoleGuard], data: { roles: ['barber', 'owner', 'admin'] }
+    canActivate: [RoleGuard], data: { roles: ['barber'] }
   },
 
   {
@@ -32,12 +32,12 @@ const routes: Routes = [
     canActivate: [RoleGuard], data: { roles: ['owner', 'admin'] }
   },
 
-  // {
-  //   path: "queue-log",
-  //   component: QueueLog,
-  //   title: "Queue Log",
-  //   canActivate: [RoleGuard], data: { roles: ['owner', 'admin'] }
-  // },
+  {
+    path: "queue-log",
+    component: QueueLog,
+    title: "Queue Log",
+    canActivate: [RoleGuard], data: { roles: ['owner', 'admin'] }
+  },
 
   {
     path: "payment",

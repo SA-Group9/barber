@@ -27,8 +27,6 @@ public interface QueueListRepository extends JpaRepository<QueueListEntity, Long
             @Param("endOfDay") LocalDateTime endOfDay
     );
 
-
-
     @Query("""
     SELECT COUNT(q)
     FROM QueueListEntity q
@@ -102,6 +100,28 @@ public interface QueueListRepository extends JpaRepository<QueueListEntity, Long
             @Param("barberId") int barberId,
             @Param("start") LocalDateTime start,
             @Param("end") LocalDateTime end);
+
+    @Query("SELECT q FROM QueueListEntity q " +
+            "WHERE (:status IS NULL OR q.status = :status) " +
+            "AND (:barberId IS NULL OR q.barberId = :barberId) " +
+            "AND (:serviceId IS NULL OR q.serviceId = :serviceId) " +
+            "AND (:startDate IS NULL OR q.dateTime >= :startDate) " +
+            "AND (:endDate IS NULL OR q.dateTime < :endDate) " +
+            "ORDER BY q.dateTime DESC")
+    Page<QueueListEntity> findByFilters(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("barberId") Integer barberId,
+            @Param("serviceId") Integer serviceId,
+            @Param("status") String status,
+            Pageable pageable
+    );
+
+    @Query("SELECT a FROM AccountEntity a WHERE a.role = 'customer'")
+    List<AccountEntity> findAllCustomers();
+
+    @Query("SELECT DISTINCT q.editedBy FROM QueueListEntity q WHERE q.editedBy IS NOT NULL AND q.editedBy <> 0")
+    List<Integer> findDistinctEditedBy();
 
 
 }

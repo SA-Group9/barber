@@ -268,6 +268,8 @@ export class Payment {
   });
 
   onSubmitDone() {
+    const amount = Number(this.outcomeForm.value.amount);
+
     const payment = {
       amount: this.outcomeForm.value.amount,
       accountId: this.account.accountId
