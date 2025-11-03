@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { interval,Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth-service';
 
@@ -154,8 +154,9 @@ export class Queue {
   }
 
   previousCountForYourQueue: number = 0;
-  previousQueueCount(): void {
+  alreadyNotified: boolean = localStorage.getItem('alreadyNotified') === 'true';
 
+  previousQueueCount(): void {
     if (this.myQueue && this.myQueue.queueNumber != null && this.myQueue.barberId != null) {
       const queueDto = {
         queueNumber: this.myQueue.queueNumber,
@@ -165,11 +166,50 @@ export class Queue {
         count => {
           this.previousCountForYourQueue = count;
           console.log('จำนวนคิวก่อนหน้า:', count);
+
+          if (count === 0 && this.userQueuing && !this.alreadyNotified) {
+            this.notifyMyTurn();
+            this.alreadyNotified = true;
+            localStorage.setItem('alreadyNotified', 'true');
+          }
+
+          if (count > 0) {
+            this.alreadyNotified = false;
+            localStorage.setItem('alreadyNotified', 'false');
+          }
         },
         error => console.error('เกิดข้อผิดพลาด:', error)
       );
     } else {
       console.warn('queueNumber หรือ barberId ยังไม่ถูกกำหนด');
+    }
+  }
+
+  notifyMyTurn() {
+    Swal.fire({
+      icon: 'success',
+      title: 'ถึงคิวของคุณแล้ว!',
+      text: 'เชิญรับบริการ',
+      confirmButtonText: 'ตกลง'
+    });
+
+    const audio = new Audio('assets/sounds/notify.mp3');
+    audio.play();
+
+    if (Notification.permission === 'granted') {
+      new Notification('ถึงคิวของคุณแล้ว!', {
+        body: 'เชิญรับบริการ',
+      icon: 'assets/icons/barber.png'
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('ถึงคิวของคุณแล้ว!', {
+            body: 'เชิญรับบริการ',
+          icon: 'assets/icons/barber.png'
+          });
+        }
+      });
     }
   }
 
