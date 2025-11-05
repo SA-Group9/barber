@@ -20,7 +20,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Integer>
             "AND (:accountId IS NULL OR p.accountId = :accountId) " +
             "AND (:startDate IS NULL OR p.editedAt >= :startDate) " +
             "AND (:endDate IS NULL OR p.editedAt < :endDate) " +
-            "ORDER BY p.editedAt DESC")
+            "ORDER BY p.dateTime DESC")
     Page<PaymentEntity> findByKeyword(
             @Param("transactionType") String transactionType,
             @Param("status") String status,

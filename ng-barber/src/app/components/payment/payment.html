@@ -95,16 +95,17 @@
 
                     <!-- Header -->
                     <div class="div-table-row header">
-                        <div class="div-table-cell">วัน-เวลา</div>
+                        <div class="div-table-cell">วัน-เวลาที่ทำรายการ</div>
                         <div class="div-table-cell">ประเภทรายการ</div>
                         <div class="div-table-cell">จำนวนเงิน</div>
                         <div class="div-table-cell">ผู้รับผิดชอบ</div>
+                        <div class="div-table-cell">วัน-เวลาที่แก้ไขล่าสุด</div>
                         <div class="div-table-cell">สถานะ</div>
                     </div>
 
                     <!-- Rows -->
                     <div class="div-table-row" *ngFor="let payment of payments" (click)="selectPayment(payment.paymentId!)">
-                        <div class="div-table-cell">{{formatTimestampToThaiDateTime(payment.editedAt)}}</div>
+                        <div class="div-table-cell">{{formatTimestampToThaiDateTime(payment.dateTime)}}</div>
                         <div class="div-table-cell">
                             <div class="payment-type-wrapper">
                                 <div class="payment-type-badge" [ngClass]="{
@@ -118,6 +119,7 @@
 
                         <div class="div-table-cell">{{payment.amount}}</div>
                         <div class="div-table-cell">{{ getInChargeNameById(payment.accountId) }}</div>
+                        <div class="div-table-cell">{{formatTimestampToThaiDateTime(payment.editedAt)}}</div>
                         <div class="div-table-cell">
                             <div class="payment-status-wrapper">
                                 <div class="payment-status-badge" [ngClass]="{
@@ -138,6 +140,7 @@
                         <div class="div-table-cell">
                             ไม่มีรายการ
                         </div>
+                        <div class="div-table-cell"></div>
                         <div class="div-table-cell"></div>
                         <div class="div-table-cell"></div>
                     </div>
