@@ -63,7 +63,7 @@ export class ManageQueue {
       return;
     }
 
-    // ✅ ตั้งค่า currentQueue ทันทีที่เลือก
+    // ตั้งค่า currentQueue ทันทีที่เลือก
     this.currentQueue = selected;
     console.log('Selected Queue:', selected);
 
@@ -82,7 +82,7 @@ export class ManageQueue {
           text: `คุณต้องการทำอะไรกับคิวที่ ${selected.queueNumber}?`,
           icon: 'question',
           showCancelButton: true,
-          confirmButtonText: 'ตัดผม',
+          confirmButtonText: 'เริ่มให้บริการ',
           cancelButtonText: 'ยกเลิกคิว',
           reverseButtons: true,
           confirmButtonColor: '#4E7E53',
@@ -115,7 +115,7 @@ export class ManageQueue {
   acceptQueue(selectedQueue: QueueModel) {
     this.queueAccepted = true;
     Swal.fire({
-      title: 'เริ่มตัดผม',
+      title: 'เริ่มให้บริการ',
       icon: 'success',
       confirmButtonColor: '#4E7E53'
     });
@@ -142,7 +142,7 @@ export class ManageQueue {
               confirmButtonColor: '#BF4641'
             });
             this.queueAccepted = false;
-            this.loadMyQueue(); // โหลดคิวใหม่
+            this.loadMyQueue();
           },
           error: (err) => {
             console.error('Failed to reset queuing', err);

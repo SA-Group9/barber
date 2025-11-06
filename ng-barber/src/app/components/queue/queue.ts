@@ -154,7 +154,7 @@ export class Queue {
   }
 
   previousCountForYourQueue: number = 0;
-  alreadyNotified: boolean = localStorage.getItem('alreadyNotified') === 'true';
+  alreadyNotified: boolean = false;
 
   previousQueueCount(): void {
     if (this.myQueue && this.myQueue.queueNumber != null && this.myQueue.barberId != null) {
@@ -166,16 +166,17 @@ export class Queue {
         count => {
           this.previousCountForYourQueue = count;
           console.log('จำนวนคิวก่อนหน้า:', count);
+          console.log('สถานะ Notify ปัจจุบัน:', this.alreadyNotified);
 
-          if (count === 0 && this.userQueuing && !this.alreadyNotified) {
-            this.notifyMyTurn();
-            this.alreadyNotified = true;
-            localStorage.setItem('alreadyNotified', 'true');
-          }
-
-          if (count > 0) {
+          if (count === 0 && this.userQueuing) {
+            if (!this.alreadyNotified) {
+              this.notifyMyTurn();
+              this.alreadyNotified = true;
+              console.log('แจ้งเตือนคิวของคุณแล้ว');
+            }
+          } else {
+            // ถ้ายังมีคิวก่อนหน้าอยู่ -> รีเซ็ตสถานะแจ้งเตือน
             this.alreadyNotified = false;
-            localStorage.setItem('alreadyNotified', 'false');
           }
         },
         error => console.error('เกิดข้อผิดพลาด:', error)
@@ -193,20 +194,17 @@ export class Queue {
       confirmButtonText: 'ตกลง'
     });
 
-    const audio = new Audio('assets/sounds/notify.mp3');
-    audio.play();
-
     if (Notification.permission === 'granted') {
       new Notification('ถึงคิวของคุณแล้ว!', {
         body: 'เชิญรับบริการ',
-      icon: 'assets/icons/barber.png'
+        icon: 'assets/icons/barber.png'
       });
     } else if (Notification.permission !== 'denied') {
       Notification.requestPermission().then(permission => {
         if (permission === 'granted') {
           new Notification('ถึงคิวของคุณแล้ว!', {
             body: 'เชิญรับบริการ',
-          icon: 'assets/icons/barber.png'
+            icon: 'assets/icons/barber.png'
           });
         }
       });

@@ -33,19 +33,22 @@ export class Payment {
       this.auth.currentAccount$.subscribe(account => {
         this.account = account;
         console.log('ข้อมูลผู้ใช้ที่ล็อกอิน:', this.account);
+
+        this.loadInCharge();
+        this.searchChanged.next();
       })
     );
 
-    this.loadInCharge();
     this.searchChanged.pipe(debounceTime(300)).subscribe(() => {
       this.loadPayment();
     });
-    this.searchChanged.next();
+
     this.paymentRefreshSub = interval(5000).subscribe(() => {
       this.loadPayment();
       this.loadInCharge();
     });
   }
+
 
   ngOnDestroy() {
     this.subs.forEach(sub => sub.unsubscribe());

@@ -30,12 +30,12 @@ export class Login {
   registerForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    telNumber: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    telNumber: ['', [Validators.required, Validators.pattern('^0[0-9]{9}$')]],
     password: ['', Validators.required]
   });
 
   loginForm = this.fb.group({
-    telNumber: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    telNumber: ['', [Validators.required, Validators.pattern('^0[0-9]{9}$')]],
     password: ['', Validators.required]
   });
 
@@ -45,7 +45,7 @@ export class Login {
     if (this.loginForm.invalid) {
       Swal.fire({
         icon: 'error',
-        title: 'กรุณากรอกหมายเลขโทรศัพท์และรหัสผ่านให้ครบถ้วน',
+        title: 'กรุณากรอกหมายเลขโทรศัพท์และรหัสผ่านให้ถูกต้อง',
       });
       return;
     }

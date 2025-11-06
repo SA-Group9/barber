@@ -81,6 +81,14 @@ public class PaymentService {
         LocalDateTime startDateTime = startDate != null ? startDate.atStartOfDay() : null;
         LocalDateTime endDateTime = endDate != null ? endDate.plusDays(1).atStartOfDay() : null;
 
+        if (startDateTime == null) {
+            startDateTime = LocalDateTime.of(1970, 1, 1, 0, 0); // หรือ LocalDateTime.MIN ก็ได้
+        }
+
+        if (endDateTime == null) {
+            endDateTime = LocalDateTime.now().plusYears(100);
+        }
+
         return paymentRepository.findByKeyword(transactionType, status, accountId, startDateTime, endDateTime, pageable);
     }
 
@@ -112,6 +120,13 @@ public class PaymentService {
     ) {
         LocalDateTime startDateTime = startDate != null ? startDate.atStartOfDay() : null;
         LocalDateTime endDateTime = endDate != null ? endDate.plusDays(1).atStartOfDay() : null;
+        if (startDateTime == null) {
+            startDateTime = LocalDateTime.of(1970, 1, 1, 0, 0); // หรือ LocalDateTime.MIN ก็ได้
+        }
+
+        if (endDateTime == null) {
+            endDateTime = LocalDateTime.now().plusYears(100);
+        }
         List<PaymentEntity> payments = paymentRepository.findByFilterForCalculate(transactionType, status, inChargeId, startDateTime, endDateTime);
 
         double incomeTotal = payments.stream()

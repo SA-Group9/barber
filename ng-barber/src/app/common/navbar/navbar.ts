@@ -50,7 +50,7 @@ export class Navbar implements OnInit {
   editProfileForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    telNumber: ['', Validators.required],
+    telNumber: ['', [Validators.required, Validators.pattern('^0[0-9]{9}$')]],
     role: [{ value: '', disabled: true }, Validators.required]
   });
 
@@ -225,7 +225,7 @@ export class Navbar implements OnInit {
       Swal.fire({
         icon: 'warning',
         title: 'ข้อมูลไม่ครบถ้วน',
-        text: 'กรุณากรอกข้อมูลให้ครบทุกช่อง',
+        text: 'กรุณากรอกข้อมูลให้ถูกต้องทุกช่อง',
         confirmButtonText: 'ตกลง'
       });
       return;
@@ -234,14 +234,14 @@ export class Navbar implements OnInit {
     const newTelNumber = this.editProfileForm.value.telNumber!;
     const oldTelNumber = this.account?.telNumber;
 
-    // ✅ เช็คว่าเบอร์โทรเปลี่ยนหรือไม่ก่อนเรียก checkTelNumber()
+    // เช็คว่าเบอร์โทรเปลี่ยนหรือไม่ก่อนเรียก checkTelNumber()
     if (newTelNumber === oldTelNumber) {
       // ถ้าเบอร์ไม่เปลี่ยน ให้บันทึกโปรไฟล์ได้เลย
       this.saveEditedProfile(newTelNumber);
       return;
     }
 
-    // ✅ ถ้าเบอร์เปลี่ยน -> ตรวจสอบเบอร์ซ้ำก่อน
+    // ถ้าเบอร์เปลี่ยน -> ตรวจสอบเบอร์ซ้ำก่อน
     this.accountService.checkTelNumber(newTelNumber).subscribe({
       next: (exists) => {
         if (exists) {

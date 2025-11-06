@@ -29,7 +29,7 @@ export class ManageAccount {
   addAccountForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    telNumber: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    telNumber: ['', [Validators.required, Validators.pattern('^0[0-9]{9}$')]],
     password: ['', Validators.required],
     role: ['', Validators.required]
   });
@@ -37,7 +37,7 @@ export class ManageAccount {
   editAccountForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    telNumber: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+    telNumber: ['', [Validators.required, Validators.pattern('^0[0-9]{9}$')]],
     password: [''],
     role: ['', Validators.required]
   });
@@ -60,7 +60,7 @@ export class ManageAccount {
     // 🔹 เรียก API ตรวจสอบเบอร์โทร
     this.accountService.checkTelNumber(telNumber).subscribe({
       next: (isTaken) => {
-        console.log('✅ ผลจาก backend checkTelNumber:', isTaken);
+        console.log('ผลจาก backend checkTelNumber:', isTaken);
 
         if (isTaken) {
           console.warn('เบอร์โทรนี้ถูกใช้งานแล้ว! ห้ามเพิ่มบัญชีซ้ำ');
@@ -72,7 +72,7 @@ export class ManageAccount {
           return;
         }
 
-        // ✅ ถ้าไม่ซ้ำ -> ดำเนินการเพิ่มบัญชี
+        // ถ้าไม่ซ้ำ -> ดำเนินการเพิ่มบัญชี
         const account: Account = {
           firstName: this.addAccountForm.value.firstName!,
           lastName: this.addAccountForm.value.lastName!,
@@ -86,7 +86,7 @@ export class ManageAccount {
 
         this.accountService.createAccountByAdmin(account).subscribe({
           next: (res) => {
-            console.log('✅ เพิ่มบัญชีสำเร็จ:', res);
+            console.log('เพิ่มบัญชีสำเร็จ:', res);
             Swal.fire({
               title: 'เพิ่มบัญชีสำเร็จ!',
               icon: 'success',

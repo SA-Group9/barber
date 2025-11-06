@@ -175,6 +175,13 @@ public class QueueListService {
     ) {
         LocalDateTime startDateTime = (startDate != null) ? startDate.atStartOfDay() : null;
         LocalDateTime endDateTime = (endDate != null) ? endDate.plusDays(1).atStartOfDay() : null;
+        if (startDateTime == null) {
+            startDateTime = LocalDateTime.of(1970, 1, 1, 0, 0); // หรือ LocalDateTime.MIN ก็ได้
+        }
+
+        if (endDateTime == null) {
+            endDateTime = LocalDateTime.now().plusYears(100);
+        }
 
         return queueRepo.findByFilters(startDateTime, endDateTime, barberId, serviceId, status, pageable);
     }
